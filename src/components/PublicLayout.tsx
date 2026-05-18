@@ -1,8 +1,9 @@
-import { Link, Outlet } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { FaChurch, FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 import { useAuth } from "@/lib/auth";
 
-export function PublicLayout() {
+export function PublicLayout({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -40,7 +41,7 @@ export function PublicLayout() {
           </div>
         </div>
       </header>
-      <main className="flex-1"><Outlet /></main>
+      <main className="flex-1">{children}</main>
       <footer className="border-t border-border/60 bg-secondary/40">
         <div className="mx-auto max-w-7xl px-6 py-10 grid md:grid-cols-3 gap-8">
           <div>

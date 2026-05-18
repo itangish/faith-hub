@@ -1,4 +1,5 @@
-import { Link, Outlet, useLocation, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
 import type { IconType } from "react-icons";
 import {
@@ -79,7 +80,7 @@ const MEMBER_NAV: NavItem[] = [
   { to: "/member/books", label: "Books", icon: FaBook },
 ];
 
-export function AppShell({ variant }: { variant: "admin" | "member" }) {
+export function AppShell({ variant, children }: { variant: "admin" | "member"; children: ReactNode }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -146,7 +147,7 @@ export function AppShell({ variant }: { variant: "admin" | "member" }) {
             </div>
           </div>
         </header>
-        <main className="flex-1 p-6 overflow-auto"><Outlet /></main>
+        <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );
