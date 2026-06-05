@@ -14,8 +14,17 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedMyGivingRouteImport } from './routes/_authenticated/my-giving'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/_admin'
+import { Route as AuthenticatedMemberStaffRouteImport } from './routes/_authenticated/member.staff'
+import { Route as AuthenticatedMemberNotificationsRouteImport } from './routes/_authenticated/member.notifications'
+import { Route as AuthenticatedMemberMediaRouteImport } from './routes/_authenticated/member.media'
+import { Route as AuthenticatedMemberLocationRouteImport } from './routes/_authenticated/member.location'
+import { Route as AuthenticatedMemberEventsRouteImport } from './routes/_authenticated/member.events'
+import { Route as AuthenticatedMemberBooksRouteImport } from './routes/_authenticated/member.books'
+import { Route as AuthenticatedMemberAnnouncementsRouteImport } from './routes/_authenticated/member.announcements'
 import { Route as AuthenticatedAdminAdminRouteImport } from './routes/_authenticated/_admin/admin'
 import { Route as AuthenticatedAdminAdminWorshipTeamRouteImport } from './routes/_authenticated/_admin/admin.worship-team'
 import { Route as AuthenticatedAdminAdminUserApprovalsRouteImport } from './routes/_authenticated/_admin/admin.user-approvals'
@@ -64,6 +73,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMyGivingRoute = AuthenticatedMyGivingRouteImport.update({
+  id: '/my-giving',
+  path: '/my-giving',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -73,6 +92,48 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   id: '/_admin',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedMemberStaffRoute =
+  AuthenticatedMemberStaffRouteImport.update({
+    id: '/member/staff',
+    path: '/member/staff',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberNotificationsRoute =
+  AuthenticatedMemberNotificationsRouteImport.update({
+    id: '/member/notifications',
+    path: '/member/notifications',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberMediaRoute =
+  AuthenticatedMemberMediaRouteImport.update({
+    id: '/member/media',
+    path: '/member/media',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberLocationRoute =
+  AuthenticatedMemberLocationRouteImport.update({
+    id: '/member/location',
+    path: '/member/location',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberEventsRoute =
+  AuthenticatedMemberEventsRouteImport.update({
+    id: '/member/events',
+    path: '/member/events',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberBooksRoute =
+  AuthenticatedMemberBooksRouteImport.update({
+    id: '/member/books',
+    path: '/member/books',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedMemberAnnouncementsRoute =
+  AuthenticatedMemberAnnouncementsRouteImport.update({
+    id: '/member/announcements',
+    path: '/member/announcements',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedAdminAdminRoute = AuthenticatedAdminAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
@@ -217,7 +278,16 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/my-giving': typeof AuthenticatedMyGivingRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/admin': typeof AuthenticatedAdminAdminRouteWithChildren
+  '/member/announcements': typeof AuthenticatedMemberAnnouncementsRoute
+  '/member/books': typeof AuthenticatedMemberBooksRoute
+  '/member/events': typeof AuthenticatedMemberEventsRoute
+  '/member/location': typeof AuthenticatedMemberLocationRoute
+  '/member/media': typeof AuthenticatedMemberMediaRoute
+  '/member/notifications': typeof AuthenticatedMemberNotificationsRoute
+  '/member/staff': typeof AuthenticatedMemberStaffRoute
   '/admin/ai-assistant': typeof AuthenticatedAdminAdminAiAssistantRoute
   '/admin/announcements': typeof AuthenticatedAdminAdminAnnouncementsRoute
   '/admin/assets': typeof AuthenticatedAdminAdminAssetsRoute
@@ -247,7 +317,16 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/register': typeof RegisterRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
+  '/my-giving': typeof AuthenticatedMyGivingRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/admin': typeof AuthenticatedAdminAdminRouteWithChildren
+  '/member/announcements': typeof AuthenticatedMemberAnnouncementsRoute
+  '/member/books': typeof AuthenticatedMemberBooksRoute
+  '/member/events': typeof AuthenticatedMemberEventsRoute
+  '/member/location': typeof AuthenticatedMemberLocationRoute
+  '/member/media': typeof AuthenticatedMemberMediaRoute
+  '/member/notifications': typeof AuthenticatedMemberNotificationsRoute
+  '/member/staff': typeof AuthenticatedMemberStaffRoute
   '/admin/ai-assistant': typeof AuthenticatedAdminAdminAiAssistantRoute
   '/admin/announcements': typeof AuthenticatedAdminAdminAnnouncementsRoute
   '/admin/assets': typeof AuthenticatedAdminAdminAssetsRoute
@@ -280,7 +359,16 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/_authenticated/_admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/my-giving': typeof AuthenticatedMyGivingRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/_admin/admin': typeof AuthenticatedAdminAdminRouteWithChildren
+  '/_authenticated/member/announcements': typeof AuthenticatedMemberAnnouncementsRoute
+  '/_authenticated/member/books': typeof AuthenticatedMemberBooksRoute
+  '/_authenticated/member/events': typeof AuthenticatedMemberEventsRoute
+  '/_authenticated/member/location': typeof AuthenticatedMemberLocationRoute
+  '/_authenticated/member/media': typeof AuthenticatedMemberMediaRoute
+  '/_authenticated/member/notifications': typeof AuthenticatedMemberNotificationsRoute
+  '/_authenticated/member/staff': typeof AuthenticatedMemberStaffRoute
   '/_authenticated/_admin/admin/ai-assistant': typeof AuthenticatedAdminAdminAiAssistantRoute
   '/_authenticated/_admin/admin/announcements': typeof AuthenticatedAdminAdminAnnouncementsRoute
   '/_authenticated/_admin/admin/assets': typeof AuthenticatedAdminAdminAssetsRoute
@@ -312,7 +400,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/dashboard'
+    | '/my-giving'
+    | '/profile'
     | '/admin'
+    | '/member/announcements'
+    | '/member/books'
+    | '/member/events'
+    | '/member/location'
+    | '/member/media'
+    | '/member/notifications'
+    | '/member/staff'
     | '/admin/ai-assistant'
     | '/admin/announcements'
     | '/admin/assets'
@@ -342,7 +439,16 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/dashboard'
+    | '/my-giving'
+    | '/profile'
     | '/admin'
+    | '/member/announcements'
+    | '/member/books'
+    | '/member/events'
+    | '/member/location'
+    | '/member/media'
+    | '/member/notifications'
+    | '/member/staff'
     | '/admin/ai-assistant'
     | '/admin/announcements'
     | '/admin/assets'
@@ -374,7 +480,16 @@ export interface FileRouteTypes {
     | '/register'
     | '/_authenticated/_admin'
     | '/_authenticated/dashboard'
+    | '/_authenticated/my-giving'
+    | '/_authenticated/profile'
     | '/_authenticated/_admin/admin'
+    | '/_authenticated/member/announcements'
+    | '/_authenticated/member/books'
+    | '/_authenticated/member/events'
+    | '/_authenticated/member/location'
+    | '/_authenticated/member/media'
+    | '/_authenticated/member/notifications'
+    | '/_authenticated/member/staff'
     | '/_authenticated/_admin/admin/ai-assistant'
     | '/_authenticated/_admin/admin/announcements'
     | '/_authenticated/_admin/admin/assets'
@@ -444,6 +559,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/my-giving': {
+      id: '/_authenticated/my-giving'
+      path: '/my-giving'
+      fullPath: '/my-giving'
+      preLoaderRoute: typeof AuthenticatedMyGivingRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -456,6 +585,55 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/staff': {
+      id: '/_authenticated/member/staff'
+      path: '/member/staff'
+      fullPath: '/member/staff'
+      preLoaderRoute: typeof AuthenticatedMemberStaffRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/notifications': {
+      id: '/_authenticated/member/notifications'
+      path: '/member/notifications'
+      fullPath: '/member/notifications'
+      preLoaderRoute: typeof AuthenticatedMemberNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/media': {
+      id: '/_authenticated/member/media'
+      path: '/member/media'
+      fullPath: '/member/media'
+      preLoaderRoute: typeof AuthenticatedMemberMediaRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/location': {
+      id: '/_authenticated/member/location'
+      path: '/member/location'
+      fullPath: '/member/location'
+      preLoaderRoute: typeof AuthenticatedMemberLocationRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/events': {
+      id: '/_authenticated/member/events'
+      path: '/member/events'
+      fullPath: '/member/events'
+      preLoaderRoute: typeof AuthenticatedMemberEventsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/books': {
+      id: '/_authenticated/member/books'
+      path: '/member/books'
+      fullPath: '/member/books'
+      preLoaderRoute: typeof AuthenticatedMemberBooksRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/member/announcements': {
+      id: '/_authenticated/member/announcements'
+      path: '/member/announcements'
+      fullPath: '/member/announcements'
+      preLoaderRoute: typeof AuthenticatedMemberAnnouncementsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/_admin/admin': {
@@ -701,11 +879,29 @@ const AuthenticatedAdminRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedMyGivingRoute: typeof AuthenticatedMyGivingRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedMemberAnnouncementsRoute: typeof AuthenticatedMemberAnnouncementsRoute
+  AuthenticatedMemberBooksRoute: typeof AuthenticatedMemberBooksRoute
+  AuthenticatedMemberEventsRoute: typeof AuthenticatedMemberEventsRoute
+  AuthenticatedMemberLocationRoute: typeof AuthenticatedMemberLocationRoute
+  AuthenticatedMemberMediaRoute: typeof AuthenticatedMemberMediaRoute
+  AuthenticatedMemberNotificationsRoute: typeof AuthenticatedMemberNotificationsRoute
+  AuthenticatedMemberStaffRoute: typeof AuthenticatedMemberStaffRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedMyGivingRoute: AuthenticatedMyGivingRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedMemberAnnouncementsRoute: AuthenticatedMemberAnnouncementsRoute,
+  AuthenticatedMemberBooksRoute: AuthenticatedMemberBooksRoute,
+  AuthenticatedMemberEventsRoute: AuthenticatedMemberEventsRoute,
+  AuthenticatedMemberLocationRoute: AuthenticatedMemberLocationRoute,
+  AuthenticatedMemberMediaRoute: AuthenticatedMemberMediaRoute,
+  AuthenticatedMemberNotificationsRoute: AuthenticatedMemberNotificationsRoute,
+  AuthenticatedMemberStaffRoute: AuthenticatedMemberStaffRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
