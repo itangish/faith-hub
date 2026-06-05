@@ -78,6 +78,9 @@ function LoginPage() {
             >
               {loading ? <><FaSpinner className="animate-spin" /> Signing in…</> : "Sign in"}
             </button>
+            <p className="text-[11px] text-muted-foreground text-center pt-2 border-t border-border/50 mt-4">
+              Default admin: <span className="font-mono">itangishakamoses63@gmail.com</span> / <span className="font-mono">Moses@1234</span>
+            </p>
           </form>
         </div>
       </div>
