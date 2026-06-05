@@ -33,6 +33,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user]);
 
   const login: AuthState["login"] = async (email, password) => {
+    // Local admin fallback — works even without the MongoDB API running
+    if (isLocalAdminLogin(email, password)) {
+      const adminUser: User = {
+        _id: "local-admin",
+        name: "Administrator",
+        email: getAdminCreds().email,
+        role: "admin",
+        status: "approved",
+      };
+      tokenStore.set(LOCAL_ADMIN_TOKEN);
+      userStore.set(adminUser);
+      setUser(adminUser);
+      return adminUser;
+    }
     const { token, user } = await authApi.login(email, password);
     tokenStore.set(token);
     userStore.set(user);
