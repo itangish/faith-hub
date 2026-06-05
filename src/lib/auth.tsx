@@ -51,19 +51,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(adminUser);
       return adminUser;
     }
-    const { token, user } = await authApi.login(email, password);
-    tokenStore.set(token);
-    userStore.set(user);
-    setUser(user);
-    return user;
+    try {
+      const { token, user } = await authApi.login(email, password);
+      tokenStore.set(token);
+      userStore.set(user);
+      setUser(user);
+      return user;
+    } catch (err) {
+      // Fallback: try local member store
+      const m = localMembers.authenticate(email, password);
+      if (m) {
+        const u: User = {
+          _id: m._id, name: m.name, email: m.email, role: m.role, status: m.status,
+        };
+        tokenStore.set(`local-member-${m._id}`);
+        userStore.set(u);
+        setUser(u);
+        return u;
+      }
+      throw err;
+    }
   };
 
   const register: AuthState["register"] = async (p) => {
-    const { token, user } = await authApi.register(p);
-    tokenStore.set(token);
-    userStore.set(user);
-    setUser(user);
-    return user;
+    try {
+      const { token, user } = await authApi.register(p);
+      tokenStore.set(token);
+      userStore.set(user);
+      setUser(user);
+      return user;
+    } catch (err) {
+      // Fallback: store locally so the new member can sign in immediately
+      const m = localMembers.create(p);
+      const u: User = {
+        _id: m._id, name: m.name, email: m.email, role: m.role, status: m.status,
+      };
+      tokenStore.set(`local-member-${m._id}`);
+      userStore.set(u);
+      setUser(u);
+      return u;
+    }
   };
 
   const logout = () => {
