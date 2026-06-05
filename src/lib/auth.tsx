@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { authApi, tokenStore, userStore, type User } from "./api";
 import { isLocalAdminLogin, getAdminCreds } from "./admin-credentials";
+import { localMembers } from "./local-members";
 
 const LOCAL_ADMIN_TOKEN = "local-admin-session";
 
