@@ -23,7 +23,16 @@ export function setAdminCreds(creds: AdminCreds) {
   localStorage.setItem(KEY, JSON.stringify(creds));
 }
 
+// Normalize common gmail typos (gmil, gmai, gmial, gmaill, gmail.co) so a
+// small slip on the default admin email still signs in.
+function normalizeEmail(raw: string): string {
+  let e = raw.trim().toLowerCase();
+  e = e.replace(/@(gmil|gmai|gmial|gmaill|gnail|gmali)\.com$/, "@gmail.com");
+  e = e.replace(/@gmail\.(co|cm|con|comm)$/, "@gmail.com");
+  return e;
+}
+
 export function isLocalAdminLogin(email: string, password: string): boolean {
   const c = getAdminCreds();
-  return email.trim().toLowerCase() === c.email.trim().toLowerCase() && password === c.password;
+  return normalizeEmail(email) === normalizeEmail(c.email) && password === c.password;
 }
