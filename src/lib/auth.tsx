@@ -24,11 +24,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(!!tokenStore.get() && !userStore.get());
 
   useEffect(() => {
-    if (tokenStore.get() && !user) {
+    const t = tokenStore.get();
+    if (t && t !== LOCAL_ADMIN_TOKEN && !user) {
       authApi.profile()
         .then((u) => { userStore.set(u); setUser(u); })
         .catch(() => {})
         .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
   }, [user]);
 
