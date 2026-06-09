@@ -1,21 +1,15 @@
 import type { IconType } from "react-icons";
 import type { ReactNode } from "react";
-import { FaPlus, FaDownload, FaSearch, FaFilter } from "react-icons/fa";
+import { FaPlus, FaDownload, FaSearch, FaFilter, FaEllipsisH } from "react-icons/fa";
 
-export type Stat = { label: string; value: string | number; icon: IconType; tint?: string };
+export type Stat = { label: string; value: string | number; icon: IconType; tint?: string; delta?: string };
 export type ListItem = { icon: IconType; title: string; subtitle?: string; meta?: string; tint?: string };
+export type Column = { key: string; label: string; className?: string };
+export type Row = Record<string, ReactNode>;
 
 export function PageHeader({
-  icon: Icon,
-  title,
-  subtitle,
-  actions,
-}: {
-  icon: IconType;
-  title: string;
-  subtitle?: string;
-  actions?: ReactNode;
-}) {
+  icon: Icon, title, subtitle, actions,
+}: { icon: IconType; title: string; subtitle?: string; actions?: ReactNode }) {
   return (
     <header className="flex items-start justify-between gap-4 flex-wrap">
       <div className="flex items-center gap-3">
@@ -44,6 +38,7 @@ export function StatGrid({ stats }: { stats: Stat[] }) {
             </span>
           </div>
           <p className="mt-3 text-3xl font-display">{s.value}</p>
+          {s.delta && <p className="text-xs text-emerald-600 mt-1">{s.delta}</p>}
         </div>
       ))}
     </section>
@@ -75,6 +70,53 @@ export function AddButton({ label = "New" }: { label?: string }) {
     <button className="btn-gold inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium">
       <FaPlus className="w-3.5 h-3.5" /> {label}
     </button>
+  );
+}
+
+export function Badge({ tone = "default", children }: { tone?: "default" | "success" | "warning" | "danger" | "info" | "gold"; children: ReactNode }) {
+  const map = {
+    default: "bg-muted text-muted-foreground",
+    success: "bg-emerald-500/10 text-emerald-600",
+    warning: "bg-amber-500/10 text-amber-600",
+    danger: "bg-rose-500/10 text-rose-600",
+    info: "bg-blue-500/10 text-blue-600",
+    gold: "bg-gold/10 text-gold",
+  } as const;
+  return <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium ${map[tone]}`}>{children}</span>;
+}
+
+export function DataTable({ title, columns, rows, empty }: { title?: string; columns: Column[]; rows: Row[]; empty?: string }) {
+  return (
+    <section className="bg-card border border-border rounded-lg overflow-hidden">
+      {title && <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+        <h3 className="font-display text-lg">{title}</h3>
+        <span className="text-xs text-muted-foreground">{rows.length} record{rows.length === 1 ? "" : "s"}</span>
+      </div>}
+      {rows.length === 0 ? (
+        <p className="text-sm text-muted-foreground py-12 text-center">{empty || "No records yet."}</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-muted/40 text-xs uppercase tracking-wider text-muted-foreground">
+              <tr>
+                {columns.map((c) => <th key={c.key} className={`text-left font-medium px-4 py-3 ${c.className || ""}`}>{c.label}</th>)}
+                <th className="w-10" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {rows.map((r, i) => (
+                <tr key={i} className="hover:bg-accent/30 transition">
+                  {columns.map((c) => <td key={c.key} className={`px-4 py-3 ${c.className || ""}`}>{r[c.key] ?? "—"}</td>)}
+                  <td className="px-4 py-3 text-right">
+                    <button className="p-1.5 rounded hover:bg-accent text-muted-foreground"><FaEllipsisH className="w-3 h-3" /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -113,31 +155,36 @@ export function InfoBanner({ children }: { children: ReactNode }) {
 }
 
 export function AdminPage({
-  icon, title, subtitle, stats, sections, endpoint,
+  icon, title, subtitle, stats, sections, endpoint, table, addLabel, children,
 }: {
   icon: IconType;
   title: string;
   subtitle: string;
   stats: Stat[];
-  sections: { title: string; items: ListItem[]; empty?: string }[];
+  sections?: { title: string; items: ListItem[]; empty?: string }[];
+  table?: { title?: string; columns: Column[]; rows: Row[]; empty?: string };
   endpoint?: string;
+  addLabel?: string;
+  children?: ReactNode;
 }) {
   return (
     <div className="space-y-6">
-      <PageHeader icon={icon} title={title} subtitle={subtitle} actions={<><AddButton /></>} />
+      <PageHeader icon={icon} title={title} subtitle={subtitle} actions={<AddButton label={addLabel} />} />
       {endpoint && (
         <InfoBanner>
-          Data source: <code className="font-mono text-gold">{endpoint}</code>. Connect your MongoDB API via{" "}
+          Data source: <code className="font-mono text-gold">{endpoint}</code> · Connect your MongoDB API via{" "}
           <code className="font-mono">VITE_API_URL</code>.
         </InfoBanner>
       )}
       <StatGrid stats={stats} />
       <Toolbar />
-      <div className="grid lg:grid-cols-2 gap-4">
-        {sections.map((s) => (
-          <ListCard key={s.title} title={s.title} items={s.items} empty={s.empty} />
-        ))}
-      </div>
+      {table && <DataTable {...table} />}
+      {sections && sections.length > 0 && (
+        <div className="grid lg:grid-cols-2 gap-4">
+          {sections.map((s) => <ListCard key={s.title} title={s.title} items={s.items} empty={s.empty} />)}
+        </div>
+      )}
+      {children}
     </div>
   );
 }
